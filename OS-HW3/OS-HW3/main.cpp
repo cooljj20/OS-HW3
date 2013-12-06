@@ -27,6 +27,8 @@ int main(int argc, const char * argv[])
     int rows;
     int seats;
     int numberOfAgents;
+    string command;
+    int time;
     
 
     ifstream myfile ("input.txt");
@@ -60,15 +62,66 @@ int main(int argc, const char * argv[])
         stringstream(line) >> numberOfAgents;
         cout<<numberOfAgents<<endl;
 
-        
-        for(int i = 1; i<numberOfAgents+1; i++)
+        //get agent operations
+        getline(myfile,line);
+        for(int i = 0; i<numberOfAgents; i++)
         {
-            getline(myfile,line);
-            while(line == "end.")
+            //get time
+            for(int c = 0; c<4; c++)
             {
-                cout<<line<<endl;
+                cout<<"i = "<<i<<endl;
+                getline(myfile,line);
+                iss.str(line);
+                iss >> command;
+                iss >> time;
+                if(command == "reserve")
+                {
+                    cout<<command<<" "<<time<<endl;
+                }
+                else if(command == "ticket")
+                {
+                    cout<<command<<" "<<time<<endl;
+                }
+                else if(command == "cancel")
+                {
+                    cout<<command<<" "<<time<<endl;
+                }
+                else if(command == "check_passenger")
+                {
+                    cout<<command<<" "<<time<<endl;
+                }
+            }
+            for(int c = 0; c<4; c++)
+            {
+                getline(myfile,line);
             }
         }
+            
+            
+//            if(command == "reserve")
+//            {
+//                cout<<command<<endl;
+//            }
+//            else if(command == "ticket")
+//            {
+//                cout<<command<<endl;
+//            }
+//            else if(command == "cancel")
+//            {
+//                cout<<command<<endl;
+//            }
+//            else if(command == "check_passenger")
+//            {
+//                cout<<command<<endl;
+//            }
+//            else
+//            {
+//                if(line == "end.\r" || line =="end.")
+//                {
+//                    continue;
+//                }
+//                cout<<line<<endl;
+//            }
         
     }
     else cout << "Unable to open file\n";
