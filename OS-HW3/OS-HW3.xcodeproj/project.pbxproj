@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9D51B501183D8B4700552B85 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9D51B500183D8B4700552B85 /* main.cpp */; };
 		9D51B503183D8B4700552B85 /* OS_HW3.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D51B502183D8B4700552B85 /* OS_HW3.1 */; };
+		9DBCD50718523D77007F0D08 /* input.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DBCD50618523D77007F0D08 /* input.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -22,12 +23,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		9DBCD50518523D24007F0D08 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				9DBCD50718523D77007F0D08 /* input.txt in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		9D51B4FD183D8B4700552B85 /* OS-HW3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "OS-HW3"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D51B500183D8B4700552B85 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		9D51B502183D8B4700552B85 /* OS_HW3.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = OS_HW3.1; sourceTree = "<group>"; };
+		9DBCD50618523D77007F0D08 /* input.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = input.txt; path = "OS-HW3/input.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +56,7 @@
 		9D51B4F4183D8B4700552B85 = {
 			isa = PBXGroup;
 			children = (
+				9DBCD50618523D77007F0D08 /* input.txt */,
 				9D51B4FF183D8B4700552B85 /* OS-HW3 */,
 				9D51B4FE183D8B4700552B85 /* Products */,
 			);
@@ -76,6 +89,7 @@
 				9D51B4F9183D8B4700552B85 /* Sources */,
 				9D51B4FA183D8B4700552B85 /* Frameworks */,
 				9D51B4FB183D8B4700552B85 /* CopyFiles */,
+				9DBCD50518523D24007F0D08 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -225,6 +239,7 @@
 				9D51B508183D8B4700552B85 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
