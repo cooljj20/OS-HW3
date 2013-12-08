@@ -7,11 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D48F4B11854023300E6D429 /* input.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D48F4B01854023300E6D429 /* input.txt */; };
 		9DBCD51518527F99007F0D08 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9DBCD51418527F99007F0D08 /* main.cpp */; };
 		9DBCD51718527F99007F0D08 /* OS_HW3Server.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DBCD51618527F99007F0D08 /* OS_HW3Server.1 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		9D48F4AF1854021900E6D429 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				9D48F4B11854023300E6D429 /* input.txt in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9DBCD50F18527F99007F0D08 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -25,6 +36,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9D48F4B01854023300E6D429 /* input.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = input.txt; sourceTree = "<group>"; };
 		9DBCD51118527F99007F0D08 /* OS-HW3Server */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "OS-HW3Server"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DBCD51418527F99007F0D08 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		9DBCD51618527F99007F0D08 /* OS_HW3Server.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = OS_HW3Server.1; sourceTree = "<group>"; };
@@ -44,6 +56,7 @@
 		9DBCD50818527F99007F0D08 = {
 			isa = PBXGroup;
 			children = (
+				9D48F4B01854023300E6D429 /* input.txt */,
 				9DBCD51318527F99007F0D08 /* OS-HW3Server */,
 				9DBCD51218527F99007F0D08 /* Products */,
 			);
@@ -76,6 +89,7 @@
 				9DBCD50D18527F99007F0D08 /* Sources */,
 				9DBCD50E18527F99007F0D08 /* Frameworks */,
 				9DBCD50F18527F99007F0D08 /* CopyFiles */,
+				9D48F4AF1854021900E6D429 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -225,6 +239,7 @@
 				9DBCD51C18527F99007F0D08 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
