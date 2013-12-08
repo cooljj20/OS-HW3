@@ -147,42 +147,18 @@ int main(int argc, char *argv[])
         
         for(int i = 0; i<numberOfAgents; i++)
         {
-            if (numberOfAgents == childAgentNumber)
+            if (i == childAgentNumber)
             {
                 getline(myfile,line);
-                cout<<line<<endl;
-                
-                //get time
-                for(int c = 0; c<4; c++)
+                //cout<<line<<endl;
+              
+                for(int c = 0; c<8; c++)
                 {
                     getline(myfile,line);
-//                    iss.str(line);
-//                    iss >> command;
-//                    iss >> time;
-//                    if(command == "reserve")
-//                    {
-//                        cout<<command<<" "<<time<<endl;
-//                    }
-//                    else if(command == "ticket")
-//                    {
-//                        cout<<command<<" "<<time<<endl;
-//                    }
-//                    else if(command == "cancel")
-//                    {
-//                        cout<<command<<" "<<time<<endl;
-//                    }
-//                    else if(command == "check_passenger")
-//                    {
-//                        cout<<command<<" "<<time<<endl;
-//                    }
-                }
-                for(int c = 0; c<4; c++)
-                {
-                    getline(myfile,line);
-                    
+                    cout<<"FILE LINE "<<line<<endl;
                     message = line.c_str();
                     //cout<<"message: "<<message<<endl;
-                    if (send(sockfd, message, strlen(message), 0) == -1)
+                    if (send(sockfd, message, 15, 0) == -1)
                             perror("send");
                     
                     if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
