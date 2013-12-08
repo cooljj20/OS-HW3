@@ -206,76 +206,20 @@ int main(int argc, char *argv[])
                 for(int c = 0; c<4; c++)
                 {
                     getline(myfile,line);
-                    iss.str(line);
-                    iss >> command;
                     
-                    if(command == "reserve")
-                    {
-                        line = line.substr(8);
-                        message = line.c_str();
-                        //cout<<"message: "<<message<<endl;
-                        if (send(sockfd, message, 256, 0) == -1)
+                    message = line.c_str();
+                    //cout<<"message: "<<message<<endl;
+                    if (send(sockfd, message, 256, 0) == -1)
                             perror("send");
                         
-                        if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
-                            perror("recv");
-                            exit(1);
-                        }
+                    if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
+                        perror("recv");
+                        exit(1);
+                    }
                         
                         buf[numbytes] = '\0';
                         
                         printf("client: received '%s'\n",buf);
-                        
-                    }
-                    else if(command == "ticket")
-                    {
-                        line = line.substr(7);
-                        message = line.c_str();
-                        //cout<<"message: "<<message<<endl;
-                        if (send(sockfd, message, 256, 0) == -1)
-                            perror("send");
-                        
-                        if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
-                            perror("recv");
-                            exit(1);
-                        }
-                        
-                        buf[numbytes] = '\0';
-                        
-                        printf("client: received '%s'\n",buf);                    }
-                    else if(command == "cancel")
-                    {
-                        line = line.substr(7);
-                        message = line.c_str();
-                        //cout<<"message: "<<message<<endl;
-                        if (send(sockfd, message, 256, 0) == -1)
-                            perror("send");
-                        
-                        if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
-                            perror("recv");
-                            exit(1);
-                        }
-                        
-                        buf[numbytes] = '\0';
-                        
-                        printf("client: received '%s'\n",buf);                    }
-                    else if(command == "check_passenger")
-                    {
-                        line = line.substr(16);
-                        message = line.c_str();
-                        //cout<<"message: "<<message<<endl;
-                        if (send(sockfd, message, 256, 0) == -1)
-                            perror("send");
-                        
-                        if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
-                            perror("recv");
-                            exit(1);
-                        }
-                        
-                        buf[numbytes] = '\0';
-                        
-                        printf("client: received '%s'\n",buf);
-                    }
                 }
                 getline(myfile,line);
             }
