@@ -122,6 +122,7 @@ int main(int argc, char *argv[])
         if(pid != 0) {
             exit(0);
         }
+        
         cout<<childAgentNumber<<endl;
         
         for(int i = 0; i<numberOfAgents; i++)
@@ -237,7 +238,12 @@ int main(int argc, char *argv[])
 	printf("client: connecting to %s\n", s);
 
     
-	freeaddrinfo(servinfo); // all done with this structure
+	freeaddrinfo(servinfo); // all done with this structur
+    
+    char message = '0' + childAgentNumber;
+    
+    if (send(sockfd, &message, 14, 0) == -1)
+        perror("send");
     
 	if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
 	    perror("recv");
@@ -246,10 +252,11 @@ int main(int argc, char *argv[])
     
 	buf[numbytes] = '\0';
     
+    
+    
 	printf("client: received '%s'\n",buf);
     
-    if (send(sockfd, "What up back!", 14, 0) == -1)
-        perror("send");
+    
 
     
 	close(sockfd);

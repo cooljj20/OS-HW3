@@ -40,7 +40,12 @@
 #define RESERVE 2
 #define TICKET 3
 
-//using namespace std;
+struct passengerInfo {
+    int passFligntNum;
+    int passRowNum;
+    int passSeatNum;
+    int passStatus;
+};
  
 void sigchld_handler(int s)
 {
@@ -120,18 +125,14 @@ int main(void)
     myfile.close();
     /* END READ FILE */
     
-    //create flight table
-    int flight[numberOfFlights+1][rows+1][seats+1];
-    
-    for (int j = 1; j<numberOfFlights+1; j++)
+       //create flight table
+    int*** flight = new int** [numberOfFlights+1];
+    for (int i = 0; i < numberOfFlights+1; i++)
     {
-        for (int k = 1; k<rows+1; k++)
+        flight[i] = new int*[rows+1];
+        for (int j = 0; j < rows+1; j++)
         {
-            for(int l = 1; l<seats+1; l++)
-            {
-                flight[j][k][l]=0;
-                std::cout<<"flight: "<<j<<"| rows: "<<k<<"| seats:"<<l<<std::endl;
-            }
+            flight[i][j] = new int[seats+1];
         }
     }
     
@@ -216,11 +217,6 @@ int main(void)
         int numbytes;
         char buf[MAXDATASIZE];
         
-        ticket(flight, 8, 15, 3);
-        
-        if (send(new_fd, "What up fam!", 13, 0) == -1)
-            perror("send");
-        
         if ((numbytes = recv(new_fd, buf, MAXDATASIZE-1, 0)) == -1)
         {
             perror("recv");
@@ -228,6 +224,9 @@ int main(void)
         }
         
         printf("client: received '%s'\n",buf);
+        if (send(new_fd, buf, 14, 0) == -1)
+            perror("send");
+        
         close(new_fd);  // parent doesn't need this
     }
     /* SOCKET COMMUNICATION END*/
