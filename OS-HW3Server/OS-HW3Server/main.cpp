@@ -36,6 +36,10 @@
 
 #define MAXDATASIZE 100 // max number of bytes we can get at once
 
+#define EMPTY 1
+#define RESERVE 2
+#define TICKET 3
+
 //using namespace std;
  
 void sigchld_handler(int s)
@@ -52,6 +56,26 @@ void *get_in_addr(struct sockaddr *sa)
     }
     return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
+
+void cancel(int ***flight, int flightNumber, int rowNumber, int seatNumber)
+{
+    flight[flightNumber][rowNumber][seatNumber] = EMPTY;
+    std::cout<<flight[flightNumber][rowNumber][seatNumber]<<std::endl;
+}
+void reserve(int ***flight, int flightNumber, int rowNumber, int seatNumber)
+{
+    flight[flightNumber][rowNumber][seatNumber] = RESERVE;
+    std::cout<<flight[flightNumber][rowNumber][seatNumber]<<std::endl;
+
+}
+void ticket(int ***flight, int flightNumber, int rowNumber, int seatNumber)
+{
+    flight[flightNumber][rowNumber][seatNumber] = TICKET;
+    std::cout<<flight[flightNumber][rowNumber][seatNumber]<<std::endl;
+
+}
+
+
 int main(void)
 {
     
@@ -62,8 +86,8 @@ int main(void)
     int numberOfAgents;
     std::string command;
     int flightDetailsNumber[numberOfFlights];
-    std::vector<std::pair<int, int>> flightDetailsRows;
-    std::vector<std::pair<int, int>> flightDetailsSeats;
+    
+    
     
     
     std::ifstream myfile ("input.txt");
@@ -89,33 +113,30 @@ int main(void)
             iss >> rows;
             iss >> seats;
             
-            flightDetailsNumber[i] = flightNumber;
-            flightDetailsRows.push_back(std::make_pair(flightNumber, rows));
-            flightDetailsSeats.push_back(std::make_pair(flightNumber, seats));
-            
         }
-        
-        
-        for (std::vector<std::pair<int, int> >::iterator iter = flightDetailsRows.begin(); iter!=flightDetailsRows.end(); iter++)
-        {
-            std::cout<<iter->first<<" "<<iter->second<<std::endl;
-        }
-        
-        for (std::vector<std::pair<int, int> >::iterator iter = flightDetailsSeats.begin(); iter!=flightDetailsSeats.end(); iter++)
-        {
-            std::cout<<iter->first<<" "<<iter->second<<std::endl;
-        }
-        
-        
-        //get numberOfAgents
-        getline(myfile,line);
-        std::stringstream(line) >> numberOfAgents;
-        std::cout<<numberOfAgents<<std::endl;
+
 }
     else std::cout << "Unable to open file\n";
     myfile.close();
     /* END READ FILE */
     
+    //create flight table
+    int flight[numberOfFlights+1][rows+1][seats+1];
+    
+    for (int j = 1; j<numberOfFlights+1; j++)
+    {
+        for (int k = 1; k<rows+1; k++)
+        {
+            for(int l = 1; l<seats+1; l++)
+            {
+                flight[j][k][l]=0;
+                std::cout<<"flight: "<<j<<"| rows: "<<k<<"| seats:"<<l<<std::endl;
+            }
+        }
+    }
+    
+    
+    /* SOCKET COMMUNICATION */
     int sockfd, new_fd;  // listen on sock_fd, new connection on new_fd
     struct addrinfo hints, *servinfo, *p;
     struct sockaddr_storage their_addr; // connector's address information
@@ -195,6 +216,8 @@ int main(void)
         int numbytes;
         char buf[MAXDATASIZE];
         
+        ticket(flight, 8, 15, 3);
+        
         if (send(new_fd, "What up fam!", 13, 0) == -1)
             perror("send");
         
@@ -207,6 +230,7 @@ int main(void)
         printf("client: received '%s'\n",buf);
         close(new_fd);  // parent doesn't need this
     }
+    /* SOCKET COMMUNICATION END*/
     return 0;
 }
 
