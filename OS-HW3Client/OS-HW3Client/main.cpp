@@ -209,12 +209,13 @@ int main(int argc, char *argv[])
                     
                     message = line.c_str();
                     //cout<<"message: "<<message<<endl;
-                    if (send(sockfd, message, 256, 0) == -1)
+                    if (send(sockfd, message, strlen(message), 0) == -1)
                             perror("send");
-                        
+                    
                     if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
-                        perror("recv");
-                        exit(1);
+//                        perror("recv");
+//                        exit(1);
+                        break;
                     }
                         
                         buf[numbytes] = '\0';
