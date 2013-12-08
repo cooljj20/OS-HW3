@@ -48,22 +48,15 @@ void *get_in_addr(struct sockaddr *sa)
 int main(int argc, char *argv[])
 {
     int numberOfFlights;
-    int flightNumber;
-    int rows;
-    int seats;
     int numberOfAgents;
     string command;
     int time;
-    int flightDetailsNumber[numberOfFlights];
-    vector<pair<int, int> > flightDetailsRows;
-    vector<pair<int, int> > flightDetailsSeats;
     int pid;
     int childAgentNumber;
     string line;
     const char* message;
     
-
-
+    
     /* SOCKET COMMUNICATION */
 	int sockfd, numbytes;
 	char buf[MAXDATASIZE];
@@ -129,26 +122,7 @@ int main(int argc, char *argv[])
         for(int i = 0; i<numberOfFlights; i++)
         {
             getline(myfile,line);
-            iss.str(line);
-            iss >> flightNumber;
-            iss >> rows;
-            iss >> seats;
-            
-            flightDetailsNumber[i] = flightNumber;
-            flightDetailsRows.push_back(make_pair(flightNumber, rows));
-            flightDetailsSeats.push_back(make_pair(flightNumber, seats));
-            
         }
-        for (vector<pair<int, int> >::iterator iter = flightDetailsRows.begin(); iter!=flightDetailsRows.end(); iter++)
-        {
-            //cout<<iter->first<<" "<<iter->second<<endl;
-        }
-        
-        for (vector<pair<int, int> >::iterator iter = flightDetailsSeats.begin(); iter!=flightDetailsSeats.end(); iter++)
-        {
-            //cout<<iter->first<<" "<<iter->second<<endl;
-        }
-        
         
         //get numberOfAgents
         getline(myfile,line);
@@ -167,7 +141,7 @@ int main(int argc, char *argv[])
         if(pid != 0) {
             exit(0);
         }
-        cout<<"child: "<<childAgentNumber<<endl;
+        
         
         /*GET AGENT OPERATIONS */
         
@@ -181,27 +155,26 @@ int main(int argc, char *argv[])
                 //get time
                 for(int c = 0; c<4; c++)
                 {
-                    
                     getline(myfile,line);
-                    iss.str(line);
-                    iss >> command;
-                    iss >> time;
-                    if(command == "reserve")
-                    {
-                        cout<<command<<" "<<time<<endl;
-                    }
-                    else if(command == "ticket")
-                    {
-                        cout<<command<<" "<<time<<endl;
-                    }
-                    else if(command == "cancel")
-                    {
-                        cout<<command<<" "<<time<<endl;
-                    }
-                    else if(command == "check_passenger")
-                    {
-                        cout<<command<<" "<<time<<endl;
-                    }
+//                    iss.str(line);
+//                    iss >> command;
+//                    iss >> time;
+//                    if(command == "reserve")
+//                    {
+//                        cout<<command<<" "<<time<<endl;
+//                    }
+//                    else if(command == "ticket")
+//                    {
+//                        cout<<command<<" "<<time<<endl;
+//                    }
+//                    else if(command == "cancel")
+//                    {
+//                        cout<<command<<" "<<time<<endl;
+//                    }
+//                    else if(command == "check_passenger")
+//                    {
+//                        cout<<command<<" "<<time<<endl;
+//                    }
                 }
                 for(int c = 0; c<4; c++)
                 {
@@ -217,14 +190,11 @@ int main(int argc, char *argv[])
 //                        exit(1);
                         break;
                     }
-                        
                         buf[numbytes] = '\0';
-                        
                         printf("client: received '%s'\n",buf);
                 }
                 getline(myfile,line);
             }
-            
         }
     }
     else cout << "Unable to open file\n";
@@ -246,7 +216,7 @@ int main(int argc, char *argv[])
 //	printf("client: received '%s'\n",buf);
     
     
-
+    
     
 	close(sockfd);
     /* SOCKET COMMUNICATION END */

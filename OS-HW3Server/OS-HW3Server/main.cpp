@@ -224,7 +224,7 @@ int main(void)
         }
         
         printf("client: received '%s'\n",buf);
-        if (send(new_fd, buf, 256, 0) == -1)
+        if (send(new_fd, buf, 100, 0) == -1)
             perror("send");
         
         close(new_fd);  // parent doesn't need this
