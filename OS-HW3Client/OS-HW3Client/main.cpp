@@ -105,57 +105,7 @@ int main(int argc, char *argv[])
     if(pid != 0) {
         exit(0);
     }
-    
-    cout<<"child: "<<childAgentNumber<<endl;
-    
-    /* READ FROM FILE */
-    ifstream myfile1 ("input.txt");
-    if (myfile1.is_open())
-    {
-        
-        //get numberOfFlights
-        getline(myfile1,line);
-        stringstream(line) >> numberOfFlights;
-        
-        for(int i = 0; i<numberOfFlights; i++)
-        {
-            getline(myfile1,line);
-        }
-        
-        //get numberOfAgents
-        getline(myfile1,line);
-        stringstream(line) >> numberOfAgents;
-        
-        /*GET AGENT OPERATIONS */
-        int currentAgent = 0;
-        
-        for(int i = 1; i<numberOfAgents+1; i++)
-        {
-            getline(myfile1,line);
-            if( line.compare(0,6, "agent_") ==  0)
-            {
-                cout<<i<<"="<<childAgentNumber<<endl;
-                if( i == childAgentNumber )
-                {
-                    for(int c = 0; c<8; c++)
-                    {
-                        getline(myfile1,line);
-                        //cout<<line<<endl;
-                        message = line.c_str();
-                        cout<<"message: "<<message<<endl;
-                    }
-                    
-                }
-                
-            }
-            getline(myfile1,line);
-        }
-    }
-    else cout << "Unable to open file\n";
-    myfile1.close();
-    /* END READ FROM FILE */
-    
-    
+
 	memset(&hints, 0, sizeof hints);
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_socktype = SOCK_STREAM;
@@ -194,18 +144,86 @@ int main(int argc, char *argv[])
     
 	freeaddrinfo(servinfo); // all done with this structure
     
+    int math = ((childAgentNumber-1)*10)+1;
     
-//    if (send(sockfd, "test", 256, 0) == -1)
-//            perror("send");
+    /* READ FROM FILE */
+    ifstream myfile1 ("input.txt");
+    if (myfile1.is_open())
+    {
+        if (childAgentNumber==1)
+        {
+            //get numberOfFlights
+            getline(myfile1,line);
+            stringstream(line) >> numberOfFlights;
+            
+            for(int i = 0; i<numberOfFlights; i++)
+            {
+                getline(myfile1,line);
+            }
+            
+            //get numberOfAgents
+            getline(myfile1,line);
+            stringstream(line) >> numberOfAgents;
+            
+            /*GET AGENT OPERATIONS */
+            for(int i = 1; i<numberOfAgents+8; i++)
+            {
+                getline(myfile1,line);
+                //cout<<line<<endl;
+                message = line.c_str();
+                if (send(sockfd, message, strlen(message), 0) == -1)
+                    perror("send");
+            }
+        }
+        else
+        {
+            //get numberOfFlights
+            getline(myfile1,line);
+            stringstream(line) >> numberOfFlights;
+            
+            for(int i = 0; i<numberOfFlights; i++)
+            {
+                getline(myfile1,line);
+            }
+            
+            //get numberOfAgents
+            getline(myfile1,line);
+            stringstream(line) >> numberOfAgents;
+            
+            //skip agents
+            for(int i = 0; i<math-1; i++)
+            {
+                getline(myfile1, line);
+            }
+            
+            /*GET AGENT OPERATIONS */
+            for(int i = 1; i<numberOfAgents+8; i++)
+            {
+                getline(myfile1,line);
+                //cout<<line<<endl;
+                message = line.c_str();
+                if (send(sockfd, message, strlen(message), 0) == -1)
+                    perror("send");
+            }
+        }
+        
+    }
+    else cout << "Unable to open file\n";
+    myfile1.close();
+    /* END READ FROM FILE */
     
-//	if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
-//	    perror("recv");
-//	    exit(1);
-//	}
-//    
-//	buf[numbytes] = '\0';
-//    
-//	printf("client: received '%s'\n",buf);
+    
+   // if (send(sockfd, message, 256, 0) == -1)
+            //perror("send");
+    
+	if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
+	    perror("recv");
+	    exit(1);
+	}
+    
+	buf[numbytes] = '\0';
+    
+	printf("client: received '%s'\n",buf);
     
     
     
