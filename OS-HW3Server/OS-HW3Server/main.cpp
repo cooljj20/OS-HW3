@@ -216,15 +216,18 @@ int main(void)
         
         int numbytes;
         char buf[MAXDATASIZE];
+        char* messageServer;
+        
         
         if ((numbytes = recv(new_fd, buf, MAXDATASIZE-1, 0)) == -1)
         {
             perror("recv");
             exit(1);
         }
+        buf[numbytes] = '\0';
         
-        printf("client: received '%s'\n",buf);
-        if (send(new_fd, buf, 7, 0) == -1)
+        printf("server: received \n'%s'\n",buf);
+        if (send(new_fd, buf, 100, 0) == -1)
             perror("send");
         
         close(new_fd);  // parent doesn't need this

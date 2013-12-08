@@ -74,7 +74,6 @@ int main(int argc, char *argv[])
         //get numberOfAgents
         getline(myfile,line);
         stringstream(line) >> numberOfAgents;
-        cout<<numberOfAgents<<endl;
     }
     else cout << "Unable to open file\n";
     myfile.close();
@@ -150,63 +149,38 @@ int main(int argc, char *argv[])
     ifstream myfile1 ("input.txt");
     if (myfile1.is_open())
     {
-        if (childAgentNumber==1)
+        //get numberOfFlights
+        getline(myfile1,line);
+        stringstream(line) >> numberOfFlights;
+        
+        for(int i = 0; i<numberOfFlights; i++)
         {
-            //get numberOfFlights
             getline(myfile1,line);
-            stringstream(line) >> numberOfFlights;
-            
-            for(int i = 0; i<numberOfFlights; i++)
-            {
-                getline(myfile1,line);
-            }
-            
-            //get numberOfAgents
-            getline(myfile1,line);
-            stringstream(line) >> numberOfAgents;
-            
-            /*GET AGENT OPERATIONS */
-            for(int i = 1; i<numberOfAgents+8; i++)
-            {
-                getline(myfile1,line);
-                //cout<<line<<endl;
-                message = line.c_str();
-                if (send(sockfd, message, strlen(message), 0) == -1)
-                    perror("send");
-            }
         }
-        else
+        
+        //get numberOfAgents
+        getline(myfile1,line);
+        stringstream(line) >> numberOfAgents;
+        //skip agents
+        if( childAgentNumber != 1 )
         {
-            //get numberOfFlights
-            getline(myfile1,line);
-            stringstream(line) >> numberOfFlights;
-            
-            for(int i = 0; i<numberOfFlights; i++)
-            {
-                getline(myfile1,line);
-            }
-            
-            //get numberOfAgents
-            getline(myfile1,line);
-            stringstream(line) >> numberOfAgents;
-            
-            //skip agents
             for(int i = 0; i<math-1; i++)
             {
                 getline(myfile1, line);
             }
-            
-            /*GET AGENT OPERATIONS */
-            for(int i = 1; i<numberOfAgents+8; i++)
-            {
-                getline(myfile1,line);
-                //cout<<line<<endl;
-                message = line.c_str();
-                if (send(sockfd, message, strlen(message), 0) == -1)
-                    perror("send");
-            }
         }
         
+        /*GET AGENT OPERATIONS */
+        for(int i = 1; i<numberOfAgents+8; i++)
+        {
+            getline(myfile1,line);
+            message = line.c_str();
+            //cout<<message<<endl;
+            if (send(sockfd, message, strlen(message), 0) == -1)
+                perror("send");
+        }
+        
+
     }
     else cout << "Unable to open file\n";
     myfile1.close();
@@ -223,7 +197,7 @@ int main(int argc, char *argv[])
     
 	buf[numbytes] = '\0';
     
-	printf("client: received '%s'\n",buf);
+	printf("client: received \n'%s'\n",buf);
     
     
     
