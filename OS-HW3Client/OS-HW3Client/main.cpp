@@ -115,10 +115,6 @@ int main(int argc, char *argv[])
         getline(myfile,line);
         stringstream(line) >> numberOfFlights;
         
-        //get flight seating information
-        istringstream iss;
-        stringstream ss;
-        
         for(int i = 0; i<numberOfFlights; i++)
         {
             getline(myfile,line);
@@ -142,35 +138,39 @@ int main(int argc, char *argv[])
             exit(0);
         }
         
-        
+        cout<<"child: "<<childAgentNumber<<endl;
         /*GET AGENT OPERATIONS */
+        int currentAgent = 0;
         
-        for(int i = 0; i<numberOfAgents; i++)
+        for(int i = 1; i<numberOfAgents+1; i++)
         {
-            if (i == childAgentNumber)
+            getline(myfile,line);
+            cout<<line<<endl;
+            if( line.compare(0,6, "agent_") ==  0)
             {
-                getline(myfile,line);
-                //cout<<line<<endl;
-              
-                for(int c = 0; c<8; c++)
+                //cout<<i<<"="<<childAgentNumber<<endl;
+                if( i == childAgentNumber )
                 {
-                    getline(myfile,line);
-                    cout<<"FILE LINE "<<line<<endl;
-                    message = line.c_str();
-                    //cout<<"message: "<<message<<endl;
-                    if (send(sockfd, message, 15, 0) == -1)
-                            perror("send");
-                    
-                    if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
-//                        perror("recv");
-//                        exit(1);
-                        break;
+                    for(int c = 0; c<8; c++)
+                    {
+                        getline(myfile,line);
+                        //cout<<line<<endl;
+                        message = line.c_str();
+                        cout<<"message: "<<message<<endl;
+//                        if (send(sockfd, message, 15, 0) == -1)
+//                            perror("send");
+//                        
+//                        if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1)
+//                            break;
+//                        
+//                        buf[numbytes] = '\0';
+//                        printf("client: received '%s'\n",buf);
                     }
-                        buf[numbytes] = '\0';
-                        printf("client: received '%s'\n",buf);
+
                 }
-                getline(myfile,line);
+                
             }
+            getline(myfile,line);
         }
     }
     else cout << "Unable to open file\n";
