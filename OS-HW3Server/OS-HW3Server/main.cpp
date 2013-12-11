@@ -29,23 +29,29 @@
 #include <arpa/inet.h>
 #include <sys/wait.h>
 #include <signal.h>
+
+typedef enum {
+	EMPTY, RESERVED, TICKETED
+} passState;
+typedef struct {
+	char passenger[30];
+	passState state;
+} seatInfo;
+typedef struct {
+	char* flightName;
+	seatInfo flightSeats[0][0];
+} flightInfo;
  
 #define PORT "3490"  // the port users will be connecting to
  
 #define BACKLOG 10     // how many pending connections queue will hold
 
-#define MAXDATASIZE 100 // max number of bytes we can get at once
+#define MAXDATASIZE 400 // max number of bytes we can get at once
 
 #define EMPTY 1
 #define RESERVE 2
 #define TICKET 3
 
-struct passengerInfo {
-    int passFligntNum;
-    int passRowNum;
-    int passSeatNum;
-    int passStatus;
-};
  
 void sigchld_handler(int s)
 {
@@ -64,19 +70,16 @@ void *get_in_addr(struct sockaddr *sa)
 
 void cancel(int ***flight, int flightNumber, int rowNumber, int seatNumber)
 {
-    flight[flightNumber][rowNumber][seatNumber] = EMPTY;
-    std::cout<<flight[flightNumber][rowNumber][seatNumber]<<std::endl;
+    
 }
 void reserve(int ***flight, int flightNumber, int rowNumber, int seatNumber)
 {
-    flight[flightNumber][rowNumber][seatNumber] = RESERVE;
-    std::cout<<flight[flightNumber][rowNumber][seatNumber]<<std::endl;
+    
 
 }
 void ticket(int ***flight, int flightNumber, int rowNumber, int seatNumber)
 {
-    flight[flightNumber][rowNumber][seatNumber] = TICKET;
-    std::cout<<flight[flightNumber][rowNumber][seatNumber]<<std::endl;
+    
 
 }
 
@@ -85,16 +88,12 @@ int main(void)
 {
     
     int numberOfFlights;
-    int flightNumber;
+    char flightNumber[4];
     int rows;
     int seats;
     int numberOfAgents;
-    std::string command;
-    int flightDetailsNumber[numberOfFlights];
-    
-    
-    
-    
+    std::istringstream iss;
+
     std::ifstream myfile ("input.txt");
     if (myfile.is_open())
     {
@@ -102,13 +101,10 @@ int main(void)
         //get numberOfFlights
         getline(myfile,line);
         std::stringstream(line) >> numberOfFlights;
+        //std::cout<<numberOfFlights<<std::endl;
         
-        std::cout<<numberOfFlights<<std::endl;
+        //flightInfo flight1[numberOfFlights];
         
-        
-        //get flight seating information
-        std::istringstream iss;
-        std::stringstream ss;
         
         for(int i = 0; i<numberOfFlights; i++)
         {
@@ -117,24 +113,17 @@ int main(void)
             iss >> flightNumber;
             iss >> rows;
             iss >> seats;
-            
+            std::cout<<rows<<std::endl;
+            //flight1[i].flightSeats[rows][seats];
+            //flight1[i].flightName = flightNumber;
         }
-
+        
+        getline(myfile,line);
+        std::stringstream(line) >> numberOfAgents;
 }
     else std::cout << "Unable to open file\n";
     myfile.close();
     /* END READ FILE */
-    
-       //create flight table
-    int*** flight = new int** [numberOfFlights+1];
-    for (int i = 0; i < numberOfFlights+1; i++)
-    {
-        flight[i] = new int*[rows+1];
-        for (int j = 0; j < rows+1; j++)
-        {
-            flight[i][j] = new int[seats+1];
-        }
-    }
     
     
     /* SOCKET COMMUNICATION */
@@ -216,23 +205,116 @@ int main(void)
         
         int numbytes;
         char buf[MAXDATASIZE];
-        char* messageServer;
+        std::string messageServer;
         
         
+        
+        sleep(1);
         if ((numbytes = recv(new_fd, buf, MAXDATASIZE-1, 0)) == -1)
         {
             perror("recv");
             exit(1);
         }
+        
+        
+        
         buf[numbytes] = '\0';
+        messageServer = buf;
+        std::istringstream iss2;
+        std::string agent;
+        std::string operationSkip;
+        std::string info;
+        int reserveTime;
+        int ticketTime;
+        int cancelTime;
+        int checkPassengerTime;
+        int transactionFlight;
+        int count;
+//        std::string checkPassenger;
         
-        printf("server: received \n'%s'\n",buf);
-        if (send(new_fd, buf, 100, 0) == -1)
-            perror("send");
         
+        /* GET TIME */
+        iss2.str(messageServer);
+        iss2 >> agent;
+        std::cout<<"agent = "<<agent<<std::endl;
+        iss2 >> operationSkip;
+        iss2 >> reserveTime;
+        std::cout<<"reserveTime = "<<reserveTime<<std::endl;
+        iss2 >> operationSkip;
+        iss2 >> ticketTime;
+        std::cout<<"ticketTime = "<<ticketTime<<std::endl;
+        iss2 >> operationSkip;
+        iss2 >> cancelTime;
+        std::cout<<"cancelTime = "<<cancelTime<<std::endl;
+        iss2 >> operationSkip;
+        iss2 >> checkPassengerTime;
+        std::cout<<"checkPassengerTime = "<<checkPassengerTime<<std::endl;
+        
+        /* GET TRANSACTIONS */
+        
+        //reserve
+        iss2 >> operationSkip;
+        iss2 >> transactionFlight;
+        printf("reserveFlight = %i\n",transactionFlight);
+        iss2 >> count;
+        printf("reserveCount = %i\n",count);
+        
+        for(int i = 0; i<count; i++)
+        {
+            iss2 >> info;
+            printf("seat = %s\n",info.c_str());
+            iss2 >> info;
+            printf("name = %s\n",info.c_str());
+        }
+        
+        //ticket
+        iss2 >> operationSkip;
+        iss2 >> transactionFlight;
+        printf("ticketFlight = %i\n",transactionFlight);
+        iss2 >> count;
+        printf("ticketCount = %i\n",count);
+        
+        for(int i = 0; i<count; i++)
+        {
+            iss2 >> info;
+            printf("seat = %s\n",info.c_str());
+            iss2 >> info;
+            printf("name = %s\n",info.c_str());
+        }
+        
+        //cancel
+        iss2 >> operationSkip;
+        iss2 >> transactionFlight;
+        printf("cancelFlight = %i\n",transactionFlight);
+        iss2 >> count;
+        printf("cancelCount = %i\n",count);
+        
+        for(int i = 0; i<count; i++)
+        {
+            iss2 >> info;
+            printf("seat = %s\n",info.c_str());
+            iss2 >> info;
+            printf("name = %s\n",info.c_str());
+        }
+       
+        
+        //check passenger
+        iss2 >> operationSkip;
+        iss2 >> info;
+        printf("cancelName = %s\n",info.c_str());
+        
+       
+        //std::cout << "buffer contains: " << messageServer << '\n';
+        
+        //printf("server: received \n'%s'\n",buf);
+//        if (send(new_fd, buf, 200, 0) == -1)
+//            perror("send");
         close(new_fd);  // parent doesn't need this
     }
     /* SOCKET COMMUNICATION END*/
+    
+    
+    
     return 0;
 }
 

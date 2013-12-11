@@ -30,7 +30,9 @@
 
 #define PORT "3490" // the port client will be connecting to
 
-#define MAXDATASIZE 100 // max number of bytes we can get at once
+#define MAXDATASIZE 300 // max number of bytes we can get at once
+
+
 
 using namespace std;
 
@@ -50,7 +52,6 @@ int main(int argc, char *argv[])
     int numberOfFlights;
     int numberOfAgents;
     string command;
-    int time;
     int pid;
     int childAgentNumber;
     string line;
@@ -175,9 +176,7 @@ int main(int argc, char *argv[])
         {
             getline(myfile1,line);
             message = line.c_str();
-            //cout<<message<<endl;
-            if (send(sockfd, message, strlen(message), 0) == -1)
-                perror("send");
+            send(sockfd, message, strlen(message), 0);
         }
         
 
@@ -190,16 +189,14 @@ int main(int argc, char *argv[])
    // if (send(sockfd, message, 256, 0) == -1)
             //perror("send");
     
-	if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
-	    perror("recv");
-	    exit(1);
-	}
-    
-	buf[numbytes] = '\0';
-    
-	printf("client: received \n'%s'\n",buf);
-    
-    
+//	if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
+//	    perror("recv");
+//	    exit(1);
+//	}
+//    
+//	buf[numbytes] = '\0';
+//    
+//	printf("client: received \n'%s'\n",buf);
     
     
 	close(sockfd);
