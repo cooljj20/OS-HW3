@@ -239,76 +239,76 @@ int main(void)
         std::cout<<"agent = "<<agent<<std::endl;
         iss2 >> operationSkip;
         iss2 >> reserveTime;
-        std::cout<<"reserveTime = "<<reserveTime<<std::endl;
+        //std::cout<<"reserveTime = "<<reserveTime<<std::endl;
         iss2 >> operationSkip;
         iss2 >> ticketTime;
-        std::cout<<"ticketTime = "<<ticketTime<<std::endl;
+        //std::cout<<"ticketTime = "<<ticketTime<<std::endl;
         iss2 >> operationSkip;
         iss2 >> cancelTime;
-        std::cout<<"cancelTime = "<<cancelTime<<std::endl;
+        //std::cout<<"cancelTime = "<<cancelTime<<std::endl;
         iss2 >> operationSkip;
         iss2 >> checkPassengerTime;
-        std::cout<<"checkPassengerTime = "<<checkPassengerTime<<std::endl;
+        //std::cout<<"checkPassengerTime = "<<checkPassengerTime<<std::endl;
         
         /* GET TRANSACTIONS */
         
         //reserve
         iss2 >> operationSkip;
         iss2 >> transactionFlight;
-        printf("reserveFlight = %i\n",transactionFlight);
+        //printf("reserveFlight = %i\n",transactionFlight);
         iss2 >> count;
-        printf("reserveCount = %i\n",count);
+        //printf("reserveCount = %i\n",count);
         
         for(int i = 0; i<count; i++)
         {
             iss2 >> info;
-            printf("seat = %s\n",info.c_str());
+            printf("Reseveration at seat %s ",info.c_str());
             iss2 >> info;
-            printf("name = %s\n",info.c_str());
+            printf("for passenger %s for flight %i\n",info.c_str(), transactionFlight);
         }
         
         //ticket
         iss2 >> operationSkip;
         iss2 >> transactionFlight;
-        printf("ticketFlight = %i\n",transactionFlight);
+        //printf("ticketFlight = %i\n",transactionFlight);
         iss2 >> count;
-        printf("ticketCount = %i\n",count);
+        //printf("ticketCount = %i\n",count);
         
         for(int i = 0; i<count; i++)
         {
             iss2 >> info;
-            printf("seat = %s\n",info.c_str());
+            printf("Ticket Purchased at seat %s ",info.c_str());
             iss2 >> info;
-            printf("name = %s\n",info.c_str());
+            printf("for passenger %s for flight %i\n",info.c_str(), transactionFlight);
         }
         
         //cancel
         iss2 >> operationSkip;
         iss2 >> transactionFlight;
-        printf("cancelFlight = %i\n",transactionFlight);
+        //printf("cancelFlight = %i\n",transactionFlight);
         iss2 >> count;
-        printf("cancelCount = %i\n",count);
+        //printf("cancelCount = %i\n",count);
         
         for(int i = 0; i<count; i++)
         {
             iss2 >> info;
-            printf("seat = %s\n",info.c_str());
+            printf("Canceled Ticket at seat = %s ",info.c_str());
             iss2 >> info;
-            printf("name = %s\n",info.c_str());
+            printf("for passenger %s for flight %i\n",info.c_str(),transactionFlight);
         }
        
         
         //check passenger
         iss2 >> operationSkip;
         iss2 >> info;
-        printf("cancelName = %s\n",info.c_str());
+        printf("Ticket canceled for passenger %s\n",info.c_str());
         
        
-        //std::cout << "buffer contains: " << messageServer << '\n';
+        
         
         //printf("server: received \n'%s'\n",buf);
-//        if (send(new_fd, buf, 200, 0) == -1)
-//            perror("send");
+        if (send(new_fd, buf, 200, 0) == -1)
+            perror("send");
         close(new_fd);  // parent doesn't need this
     }
     /* SOCKET COMMUNICATION END*/

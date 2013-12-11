@@ -189,14 +189,15 @@ int main(int argc, char *argv[])
    // if (send(sockfd, message, 256, 0) == -1)
             //perror("send");
     
-//	if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
-//	    perror("recv");
-//	    exit(1);
-//	}
-//    
-//	buf[numbytes] = '\0';
-//    
-//	printf("client: received \n'%s'\n",buf);
+    sleep(1);
+	if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
+	    perror("recv");
+	    exit(1);
+	}
+    
+	buf[numbytes] = '\0';
+    
+	printf("client: received \n'%s'\n",buf);
     
     
 	close(sockfd);
